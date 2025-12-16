@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <libdatachannel-Runtime>windows</libdatachannel-Runtime>
+    <libdatachannel-Runtime Condition="'$(ApplicationType)'=='Windows Store'">uwp</libdatachannel-Runtime>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <libdatachannel-Libraries>$(MSBuildThisFileDirectory)..\..\bin\$(libdatachannel-Runtime)\$(Platform)\$(Configuration)</libdatachannel-Libraries>
+    <libdatachannel-DependencyRoot>$(MSBuildThisFileDirectory)..\..\lib\$(libdatachannel-Runtime)\$(Platform)\$(Configuration)</libdatachannel-DependencyRoot>
+    <libdatachannel-Dependencies>$(libdatachannel-DependencyRoot)\*.lib</libdatachannel-Dependencies>    
+    <libdatachannel-Includes>$(MSBuildThisFileDirectory)..\..\include</libdatachannel-Includes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(libdatachannel-Libraries)\*.*">
+      <InProject>False</InProject>
+      <Link>%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(libdatachannel-Libraries);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(libdatachannel-Dependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(libdatachannel-Includes);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>
